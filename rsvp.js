@@ -1,8 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const rsvpController = require('../controllers/rsvpController');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-router.post('/', rsvpController.createOrUpdateRsvp);
-router.get('/event/:eventId', rsvpController.getRsvpsForEvent);
+const RsvpSchema = new Schema({
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  event: { type: Schema.Types.ObjectId, ref: 'Event', required: true },
+  status: { type: String, enum: ['Yes', 'No', 'Maybe'], required: true }
+});
 
-module.exports = router;
+module.exports = mongoose.model('Rsvp', RsvpSchema);

@@ -1,9 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const eventController = require('../controllers/eventController');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-router.post('/', eventController.createEvent);
-router.get('/:id', eventController.getEvent);
-router.get('/', eventController.getAllEvents);
+const EventSchema = new Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  date: { type: Date, required: true },
+  location: { type: String },
+  createdBy: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+});
 
-module.exports = router;
+module.exports = mongoose.model('Event', EventSchema);
